@@ -9,7 +9,7 @@
 下载安装流程:  
 
 
-1.   git clone https://github.com/sc89703312/WebBHReact.git
+1.   `git clone https://github.com/sc89703312/WebBHReact.git`
 2.   cd WebBHReact
 3.   npm install
 4.   npm start
