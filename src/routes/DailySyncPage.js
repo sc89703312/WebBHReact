@@ -19,7 +19,36 @@ import {
   cyan500
 } from 'material-ui/styles/colors';
 
-function DailySyncPage() {
+function DailySyncPage({dispatch, daily}) {
+
+  let {statInfo, steps, description} = daily;
+
+  var formatDate = function (date) {
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? '0' + m : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    return y + '-' + m + '-' + d;
+  };
+
+  function dateOnChange(event, date) {
+    let curDate = formatDate(date);
+    dispatch({
+      type: `daily/queryDailyStat`,
+      payload:{
+        date: curDate
+      }
+    });
+
+    dispatch({
+      type: `daily/queryDailySteps`,
+      payload:{
+        date: curDate
+      }
+    });
+  }
+
   return (
     <div className={styles["container"]+" row"}>
       <div className="col-xs-2"></div>
@@ -29,7 +58,8 @@ function DailySyncPage() {
             <div className="col-xs-10 " style={{paddingRight: 0, marginLeft: 16}}>
               <DatePicker
                 textFieldStyle={{width: "100%"}}
-                hintText="2016-10-21"
+                hintText="2016-11-29"
+                onChange={dateOnChange}
               />
             </div>
             <div className={styles["hide-only-small"]+" col-xs-1"}>
@@ -50,7 +80,7 @@ function DailySyncPage() {
               />
               <br/>
               <div className={styles["font-container-style"]}>
-                <span className={styles["font-style"]}>走了<span className={styles["font-number-style"]}>2311</span>步</span>
+                <span className={styles["font-style"]}>走了<span className={styles["font-number-style"]}>{statInfo.steps}</span>步</span>
               </div>
             </div>
             <div className={styles["info-block"] + " col-md-3 col-xs-6"}>
@@ -62,7 +92,7 @@ function DailySyncPage() {
               />
               <br/>
               <div className={styles["font-container-style"]}>
-              <span className={styles["font-style"]}>走过了<span className={styles["font-number-style"]}>4.5</span>公里</span>
+              <span className={styles["font-style"]}>走过了<span className={styles["font-number-style"]}>{statInfo.distance}</span>公里</span>
               </div>
             </div>
             <div className={styles["info-block"] + " col-md-3 col-xs-6"}>
@@ -74,7 +104,7 @@ function DailySyncPage() {
               />
               <br/>
               <div className={styles["font-container-style"]}>
-              <span className={styles["font-style"]}>消耗了<span className={styles["font-number-style"]}>3912</span>千卡</span>
+              <span className={styles["font-style"]}>消耗了<span className={styles["font-number-style"]}>{statInfo.energy}</span>千卡</span>
               </div>
             </div>
             <div className={styles["info-block"] + " col-md-3 col-xs-6"}>
@@ -86,7 +116,7 @@ function DailySyncPage() {
               />
               <br/>
               <div className={styles["font-container-style"]}>
-              <span className={styles["font-style"]}>时速<span className={styles["font-number-style"]}>12</span>km/h</span>
+              <span className={styles["font-style"]}>时速<span className={styles["font-number-style"]}>{statInfo.speed}</span>km/h</span>
               </div>
             </div>
           </div>
@@ -97,14 +127,14 @@ function DailySyncPage() {
           <div className="row center-xs">
             <div className="col-xs-4">
               <div style={{marginTop: 100}}>
-                <span className={styles["font-style"]}>今天的运动强度:<span className={styles["font-number-style"]}>适中</span></span>
+                <span className={styles["font-style"]}>今天的运动强度:<span className={styles["font-number-style"]}>{statInfo.description}</span></span>
               </div>
               <div style={{marginTop: 12}}>
-                <span className={styles["font-style"]}><span className={styles["font-number-style"]}>8:00-12:00</span>为运动高峰期</span>
+                <span className={styles["font-style"]}><span className={styles["font-number-style"]}>{description}</span>为运动高峰期</span>
               </div>
             </div>
             <div className="col-xs-8">
-              <DailyStepChart />
+              <DailyStepChart steps={steps}/>
             </div>
           </div>
 
@@ -114,4 +144,8 @@ function DailySyncPage() {
   );
 }
 
-export default connect()(DailySyncPage);
+function mapStateToProps({daily}) {
+  return {daily}
+}
+
+export default connect(mapStateToProps)(DailySyncPage);

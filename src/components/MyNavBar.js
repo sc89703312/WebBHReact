@@ -40,6 +40,12 @@ export default class MyNavBar extends React.Component {
     });
   };
 
+  closeTap = (event) => {
+    this.setState({
+      open: false,
+    });
+  };
+
   handleRequestClose = () => {
     this.setState({
       open: false,
@@ -55,10 +61,10 @@ export default class MyNavBar extends React.Component {
         iconElementRight={
           <div className={styles["flex-container"]}>
             <FlatButton
-              containerElement={<Link to="/competition"/>}
+              containerElement={<Link to="/competition/all"/>}
               backgroundColor={cyan500} label="竞赛" labelStyle={fontStyle}/>
             <FlatButton
-              containerElement={<Link to="/post"/>}
+              containerElement={<Link to="/post/all"/>}
               backgroundColor={cyan500} label="动态" labelStyle={fontStyle}/>
             <FlatButton
               containerElement={<Link to="/friend"/>}
@@ -85,14 +91,18 @@ export default class MyNavBar extends React.Component {
               >
                 <Menu>
                   <MenuItem
+                    onTouchTap={this.closeTap}
                     containerElement={<Link to="/dailySync"/>}
                     leftIcon={
                     <ActionUpdate />
                   } primaryText="每日同步" />
                   <MenuItem
+                    onTouchTap={this.closeTap}
                     containerElement={<Link to="/"/>}
                     leftIcon={<ActionAccountBox />} primaryText="个人信息" />
-                  <MenuItem leftIcon={<ActionInput />} primaryText="退出登录" />
+                  <Link to="/login" style={{textDecoration: `none`}}>
+                    <MenuItem onTouchTap={this.closeTap} leftIcon={<ActionInput />} primaryText="退出登录" />
+                  </Link>
                 </Menu>
               </Popover>
             </div>

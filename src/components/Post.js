@@ -6,6 +6,8 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import ImageAddAPhoto from 'material-ui/svg-icons/image/add-a-photo'
+import {connect} from 'dva';
+
 
 const styles = {
   smallIcon: {
@@ -38,22 +40,43 @@ const styles = {
   },
 };
 
-function Post() {
+function Post({dispatch}) {
+
+  let context = '';
+
+  function textChange(event) {
+    context = event.target.value;
+  }
+
+  function createPost() {
+    var tempList = context.split('\n');
+    dispatch({
+      type: `post/createPost`,
+      payload:{
+        title: tempList[0],
+        content: tempList[1],
+        subContent: tempList[2]
+      }
+    })
+  }
+
   return(
     <Paper>
       <div className="row">
         <div className="col-xs-9" style={{marginLeft: 10, paddingRight: 0}}>
           <TextField
-            floatingLabelText="发表动态，和好友一起崩坏"
+            floatingLabelText="发表动态，和好友一起崩坏吧\(^o^)/~"
             multiLine={true}
             fullWidth={true}
             rows={2}
+            onChange={textChange}
           />
         </div>
         <div className="col-xs-2" style={{ paddingLeft: 0}}>
           <IconButton
             iconStyle={styles.mediumIcon}
             style={styles.medium}
+            onTouchTap = {createPost}
           >
             <ImageAddAPhoto />
           </IconButton>
@@ -64,4 +87,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default connect()(Post);

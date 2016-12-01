@@ -34,15 +34,14 @@ function CompetenceMenu () {
       <Subheader><span style={{fontSize: 18}}>活动管理</span></Subheader>
       <Menu>
         <MenuItem
-          containerElement={<Link to="/competition/test"/>}
+          containerElement={<Link to="/competition/edit"/>}
           primaryText="新建比赛" leftIcon={<ContentAdd color="#F50057"/>} style={{color: "#F50057"}} />
-        <Divider />
-        <MenuItem
-          containerElement={<Link to="/competition/list"/>}
-          primaryText="竞赛场" leftIcon={<ActionStore />} />
         <MenuItem
           containerElement={<Link to="/competition/create"/>}
-          primaryText="我的竞赛" leftIcon={<ActionStars />} />
+          primaryText="我的竞赛" leftIcon={<ActionStars color="#00BCD4"/>} style={{color: "#00BCD4"}}/>
+        <MenuItem
+          containerElement={<Link to="/competition/all"/>}
+          primaryText="竞赛场" leftIcon={<ActionStore />} />
         <Divider />
         <MenuItem
           containerElement={<Link to="/competition/single"/>}

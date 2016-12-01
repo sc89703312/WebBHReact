@@ -4,7 +4,7 @@
 import React,{PropTypes}from 'react';
 import ReactEcharts from 'echarts-for-react';
 
-function SportTypeChart() {
+function SportTypeChart({typeList}) {
 
   let option = {
     tooltip : {
@@ -27,11 +27,7 @@ function SportTypeChart() {
             }
           },
         },
-        data:[
-          {value:335, name:'跑步'},
-          {value:310, name:'走路'},
-          {value:234, name:'骑行'},
-        ]
+        data: typeList
       }
     ]
   };
@@ -41,5 +37,8 @@ function SportTypeChart() {
   )
 }
 
+SportTypeChart.propTypes = {
+  typeList : React.PropTypes.array
+};
 
 export default SportTypeChart;

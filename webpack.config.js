@@ -22,8 +22,8 @@ module.exports = function(webpackConfig, env) {
 
   webpackConfig.module.loaders.push(
     {
-      test: /\.(png|jpg)$/,
-      loader: 'file-loader'
+      test: /\.(png|jpg|svg|gif|eot|woff|ttf)$/,
+      loader: 'file-loader?name=[path]images/[name].[ext]'
     }
   );
   // Support CSS Modules

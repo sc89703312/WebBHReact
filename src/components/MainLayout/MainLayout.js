@@ -36,16 +36,19 @@ function test ({ children }) {
 
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
-      <div>
-        <MyNavBar />
-        <div className="row">
+      <main>
+        <nav>
+          <MyNavBar />
+        </nav>
+
+        <header className="row">
           <div className="col-xs-12">
             <div className="box">
               { children }
             </div>
           </div>
-        </div>
-      </div>
+        </header>
+      </main>
 
     </MuiThemeProvider>
   );

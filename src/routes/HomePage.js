@@ -3,12 +3,21 @@
  */
 import dva, { connect } from 'dva';
 import { Router, Route } from 'dva/router';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import UserInfo from "../components/UserInfo/UserInfo";
 
-const HomePage = () => {
+const HomePage = ({userinfo}) => {
   return (
-    <UserInfo/>
+    <UserInfo userinfo={userinfo}/>
   );
 };
-export default connect()(HomePage);
+
+HomePage.propTypes = {
+  userinfo: PropTypes.object
+};
+
+function mapStateToProps({userinfo}) {
+  return {userinfo}
+}
+
+export default connect(mapStateToProps)(HomePage);

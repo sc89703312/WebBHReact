@@ -15,7 +15,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import ImageAddAPhoto from 'material-ui/svg-icons/image/add-a-photo'
-
+import {connect} from 'dva';
 
 const styles = {
   block: {
@@ -58,9 +58,96 @@ class CompetenceEdit extends React.Component{
 
   state = {
     value: 1,
+    title: ``,
+    startDate: ``,
+    startTime: ``,
+    endDate: ``,
+    endTime: ``,
+    type: ``,
+    bounces: 0,
+    content: ``,
+    tags: ``
   };
 
+  convertDate = (date) => {
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? '0' + m : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    return y + '-' + m + '-' + d;
+  };
+
+  convertTime = (date) => {
+  var h = date.getHours();
+  h = h < 10 ? ('0'+h) : h;
+  var minute = date.getMinutes();
+  minute = minute < 10 ? ('0' + minute) : minute;
+  return h+":"+minute;
+};
+
   handleChange = (event, index, value) => this.setState({value});
+
+  handleTitleChange = (event) => {
+    this.setState({title: event.target.value})
+  };
+
+  handleStartDateChange = (event, date) => {
+    this.setState({startDate: this.convertDate(date)});
+  };
+
+  handleStartTimeChange = (event, date) => {
+    this.setState({startTime: this.convertTime(date)});
+  };
+
+  handleEndDateChange = (event, date) => {
+    this.setState({endDate: this.convertDate(date)});
+  };
+
+  handleEndTimeChange = (event, date) => {
+    this.setState({endTime: this.convertTime(date)});
+  };
+
+  handleTypeChange = (event) => {
+    this.setState({type: event.target.value});
+  };
+
+  handleBouncesChange = (event, index, value) => {
+    this.setState({bounces: value});
+  };
+
+  handleContentChange = (event) => {
+    this.setState({content: event.target.value});
+  };
+
+  handleTagsChange = (event) =>{
+    this.setState({tags: event.target.value})
+  };
+
+  handleCreate = () =>{
+
+    console.log(this.state.title);
+    console.log(this.state.startDate);
+    console.log(this.state.startTime);
+    console.log(this.state.endDate);
+    console.log(this.state.endTime);
+    console.log(this.state.type);
+    console.log(this.state.bounces);
+    console.log(this.state.content);
+    console.log(this.state.tags);
+    this.props.dispatch({
+      type: `competence/createCompetence`,
+      payload:{
+        title: this.state.title,
+        startTime: this.state.startDate+" "+this.state.startTime,
+        endTime: this.state.endDate+" "+this.state.endTime,
+        content: this.state.content,
+        bounces: this.state.bounces,
+        type:    this.state.type,
+        tags:    this.state.tags
+      }
+    })
+  };
 
   render(){
     return (
@@ -74,29 +161,36 @@ class CompetenceEdit extends React.Component{
                   fullWidth={true}
                   floatingLabelText="编辑活动名称"
                   floatingLabelFixed={false}
+                  onChange={this.handleTitleChange}
                 />
               </div>
               <div className="col-xs-6">
-                <DatePicker hintText="开始日期" mode="landscape"
+                <DatePicker hintText="开始日期"
+                            onChange={this.handleStartDateChange}
+                            mode="landscape"
                             textFieldStyle={{width: "100%"}}/>
               </div>
               <div className="col-xs-6">
                 <TimePicker hintText="开始时间"
+                            onChange={this.handleStartTimeChange}
                             textFieldStyle={{width: "100%%"}}/>
               </div>
               <div className="col-xs-6">
-                <DatePicker hintText="结束日期" mode="landscape"
+                <DatePicker hintText="结束日期"
+                            onChange={this.handleEndDateChange}
+                            mode="landscape"
                             textFieldStyle={{width: "100%"}}/>
               </div>
               <div className="col-xs-6">
                 <TimePicker hintText="结束时间"
+                            onChange={this.handleEndTimeChange}
                             textFieldStyle={{width: "100%%"}}/>
               </div>
               <div className="col-xs-6" style={{marginTop: 15}}>
                 活动类型
               </div>
               <div className="col-xs-6" style={{marginTop: 15}}>
-                <RadioButtonGroup name="shipSpeed" defaultSelected="single">
+                <RadioButtonGroup name="shipSpeed" defaultSelected="single" onChange={this.handleTypeChange}>
                   <RadioButton
                     value="single"
                     label="单人PK"
@@ -128,15 +222,15 @@ class CompetenceEdit extends React.Component{
               <div className="col-xs-6 col-xs-offset-1">
                 <SelectField
                   floatingLabelText="奖励额度"
-                  value={this.state.value}
-                  onChange={this.handleChange}
+                  value={this.state.bounces}
+                  onChange={this.handleBouncesChange}
                   labelStyle={{width: "100%"}}
                   style={{width: "100%"}}
                 >
-                  <MenuItem value={1} primaryText="￥100" />
-                  <MenuItem value={2} primaryText="￥200" />
-                  <MenuItem value={3} primaryText="￥500" />
-                  <MenuItem value={4} primaryText="￥1000" />
+                  <MenuItem value={100} primaryText="￥100" />
+                  <MenuItem value={200} primaryText="￥200" />
+                  <MenuItem value={500} primaryText="￥500" />
+                  <MenuItem value={1000} primaryText="￥1000" />
                 </SelectField>
               </div>
               <div className="col-xs-9" style={{paddingRight: 0}}>
@@ -145,6 +239,7 @@ class CompetenceEdit extends React.Component{
                   fullWidth={true}
                   floatingLabelText="活动宣传语"
                   floatingLabelFixed={false}
+                  onChange={this.handleContentChange}
                 />
               </div>
               <div className="col-xs-3" style={{paddingLeft: 0}}>
@@ -156,12 +251,22 @@ class CompetenceEdit extends React.Component{
                 </IconButton>
               </div>
 
+              <div className="col-xs-12">
+                <TextField
+                  hintText="远游爱好者/程序员协会/骑行"
+                  fullWidth={true}
+                  floatingLabelText="为自己的活动打上tag"
+                  floatingLabelFixed={false}
+                  onChange={this.handleTagsChange}
+                />
+              </div>
+
               <div className="col-xs-12" style={{marginTop: 45}}>
                 <Divider />
               </div>
               <div className="col-xs-12" style={{marginTop: 12}}>
                 <FlatButton style={{float: "right"}} label="取消" labelStyle={{fontSize: 18,color: "#757575"}}/>
-                <FlatButton style={{float: "right"}} label="确定" labelStyle={{fontSize: 18,color: "#00BCD4"}} />
+                <FlatButton onTouchTap={this.handleCreate} style={{float: "right"}} label="确定" labelStyle={{fontSize: 18,color: "#00BCD4"}} />
               </div>
             </div>
           </div>
@@ -171,4 +276,8 @@ class CompetenceEdit extends React.Component{
   }
 }
 
-export default CompetenceEdit;
+CompetenceEdit.propTypes = {
+  dispatch: React.PropTypes.func
+};
+
+export default connect()(CompetenceEdit);

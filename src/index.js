@@ -24,6 +24,10 @@ const app = dva({
 app.model(require('./models/click'));
 app.model(require('./models/test'));
 app.model(require('./models/users'));
+app.model(require('./models/userinfo'));
+app.model(require('./models/competence'));
+app.model(require('./models/post'));
+app.model(require('./models/daily'));
 
 // 4. Router
 app.router(require('./router'));

@@ -6,13 +6,33 @@ import dva, { connect } from 'dva';
 import { Router, Route } from 'dva/router';
 import React from 'react';
 
-function PostContentList () {
+function PostContentList ({post}) {
+
+  const {postList} = post;
+
   return(
     <div>
-      <PostContent/>
-      <PostContent/>
+      {getContentList(postList)}
     </div>
   );
 }
 
-export default connect()(PostContentList);
+function getContentList(contentList) {
+  console.log(contentList);
+  let index = 0;
+  return(
+    contentList.map((object)=>{
+      return (
+        <PostContent key={++index} postInfo={object}/>
+      );
+    })
+  );
+}
+
+
+
+function mapStateToProps({post}) {
+  return {post}
+}
+
+export default connect(mapStateToProps)(PostContentList);

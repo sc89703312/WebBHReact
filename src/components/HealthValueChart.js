@@ -20,8 +20,8 @@ function HealthValueChart({value}) {
       {
         name: 'BMI指数',
         type: 'gauge',
-        min:10,
-        max:30,
+        min:15,
+        max:35,
         axisLine: {            // 坐标轴线
           lineStyle: {       // 属性lineStyle控制线条样式
             color:[[computeRate(18.5), '#00ACC1' ],
@@ -60,7 +60,7 @@ function HealthValueChart({value}) {
 }
 
 HealthValueChart.propTypes={
-  value:PropTypes.number.isRequired
+  value:PropTypes.number
 }
 
 export default HealthValueChart;

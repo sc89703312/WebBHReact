@@ -5,34 +5,29 @@ import CompetenceEdit from './components/CompetenceEdit';
 import HomePage from './routes/HomePage';
 import CompetencePage from './routes/CompetencePage';
 import PostPage from './routes/PostPage';
-import CompetenceContentList from './routes/CompetenceContentList';
-import CompetenceCreateList from './routes/CompetenceCreateList';
+import CompetenceCreateList from './routes/CompetenceSelfPage';
 import PostContentList from './routes/PostContentList';
 import FriendManage from './routes/FriendManage';
 import DailySyncPage from './routes/DailySyncPage';
+import CompetenceRightPage from './routes/CompetenceRightPage';
+import LogInPage from './routes/LogInPage';
+import AdministorPage from './routes/AdministorPage';
 
 export default function({ history }) {
   return (
     <Router history={history}>
       <Route path="/" component={test}>
+        <Route path="/login" component={LogInPage}/>
+        <Route path="/admin" component={AdministorPage}/>
+        <Route path="/info/:userName" component={HomePage}/>
         <IndexRoute  component={HomePage}/>
         <Route path="/competition" component={CompetencePage}>
-          <IndexRoute  component={CompetenceContentList}/>
-          <Route path="/competition/test" component={CompetenceEdit} />
-          <Route path="/competition/list" component={CompetenceContentList} />
+          <Route path="/competition/edit" component={CompetenceEdit} />
           <Route path="/competition/create" component={CompetenceCreateList} />
-          <Route path="/competition/single" component={CompetenceContentList} />
-          <Route path="/competition/multiple" component={CompetenceContentList} />
-          <Route path="/competition/team" component={CompetenceContentList} />
-          <Route path="/competition/time" component={CompetenceContentList} />
+          <Route path="/competition/:type" component={CompetenceRightPage} />
         </Route>
         <Route path="/post" component={PostPage}>
-          <IndexRoute  component={PostContentList}/>
-          <Route path="/post/list" component={PostContentList} />
-          <Route path="/post/self" component={PostContentList} />
-          <Route path="/post/competence" component={PostContentList} />
-          <Route path="/post/achieve" component={PostContentList} />
-          <Route path="/post/daily" component={PostContentList} />
+          <Route path="/post/:type" component={PostContentList} />
         </Route>
         <Route path="/friend" component={FriendManage} />
         <Route path="/dailySync" component={DailySyncPage} />

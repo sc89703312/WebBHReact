@@ -1,14 +1,34 @@
 import React from 'react';
+import {connect} from 'dva';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
 import Avatar from 'material-ui/Avatar';
 import SocialGroup from 'material-ui/svg-icons/social/group';
+import {Link} from 'dva/router';
 
-export default class UserList extends React.Component {
+class UserList extends React.Component {
 
   state = {
     open: false,
+  };
+
+  getList = () => {
+    let users = this.props.userList;
+    let index = 0;
+    return (users.map(
+      (object) => {
+        return (
+          <Link key={index++} to={'/info/'+object.userName} style={{textDecoration: `none`}}>
+            <ListItem
+              primaryText={object.userName}
+              leftAvatar={<Avatar src={object.avatarUrl} />}
+              rightIcon={<CommunicationChatBubble />}
+            />
+          </Link>
+        )
+      }
+    ))
   };
 
   handleToggle = () => {
@@ -24,57 +44,22 @@ export default class UserList extends React.Component {
   };
 
   render() {
+
+    console.log(this.props.userList);
+
     return (
       <div>
         <List>
           <Subheader>最近互动过的用户</Subheader>
-          <ListItem
-            primaryText="Brendan Lim"
-            leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-            rightIcon={<CommunicationChatBubble />}
-          />
-          <ListItem
-            primaryText="Brendan Lim"
-            leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-            rightIcon={<CommunicationChatBubble />}
-          />
-          <ListItem
-            primaryText="Brendan Lim"
-            leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-            rightIcon={<CommunicationChatBubble />}
-          />
-          <ListItem
-            primaryText="Brendan Lim"
-            leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-            rightIcon={<CommunicationChatBubble />}
-          />
-          <ListItem
-            primaryText="Brendan Lim"
-            leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-            rightIcon={<CommunicationChatBubble />}
-          />
-          <ListItem
-            primaryText="查看其他用户"
-            leftAvatar={<Avatar icon={<SocialGroup/>}/>}
-            initiallyOpen={false}
-            primaryTogglesNestedList={true}
-            nestedItems={[
-              <ListItem
-                primaryText="Brendan Lim"
-                leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-              />,
-              <ListItem
-              primaryText="Brendan Lim"
-              leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-              />,
-              <ListItem
-              primaryText="Brendan Lim"
-              leftAvatar={<Avatar src="https://avatars.githubusercontent.com/u/11706061?v=3" />}
-              />,
-            ]}
-          />
+          {this.getList()}
         </List>
       </div>
     );
   }
 }
+
+UserList.propTypes = {
+  userList : React.PropTypes.array
+};
+
+export default UserList;

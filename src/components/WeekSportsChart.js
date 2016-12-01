@@ -62,7 +62,7 @@ function WeekSportsChart({ data1 },context) {
             }
           }
         },
-        data:[30, 182, 434, 791, 390, 30, 10]
+        data:[9000, 9000, 9000, 9000, 9000, 9000, 9000]
       },
       {
         name:'好友',
@@ -79,7 +79,7 @@ function WeekSportsChart({ data1 },context) {
             }
           }
         },
-        data:[1320, 1132, 601, 234, 120, 90, 20]
+        data:[6000, 8000, 10000, 6000, 4000, 5000, 6000]
       }
     ]
   };

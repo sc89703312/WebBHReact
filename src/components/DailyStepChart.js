@@ -4,7 +4,7 @@
 import React,{PropTypes}from 'react';
 import ReactEcharts from 'echarts-for-react';
 
-function DailyStepChart() {
+function DailyStepChart({steps}) {
   let option = {
     color: ['#3398DB'],
     tooltip : {
@@ -23,7 +23,7 @@ function DailyStepChart() {
     xAxis : [
       {
         type : 'category',
-        data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        data : ['0:00', '2:00', '4:00', '6:00', '8:00', '10:00', '12:00', '14:00','16:00','18:00','20:00','22:00'],
         axisTick: {
           alignWithLabel: true
         }
@@ -39,7 +39,7 @@ function DailyStepChart() {
         name:'步数',
         type:'bar',
         barWidth: '50%',
-        data:[10, 52, 200, 334, 390, 330, 220]
+        data:steps
       }
     ]
   };
@@ -48,5 +48,9 @@ function DailyStepChart() {
     <ReactEcharts style={{height:'250px'}} option={option} />
   );
 }
+
+DailyStepChart.propTypes ={
+  steps: React.PropTypes.array
+};
 
 export default DailyStepChart;

@@ -44,7 +44,7 @@ function PostMenu () {
           primaryText="好友圈" leftIcon={<ActionStore />} />
         <MenuItem
           containerElement={<Link to="/post/self"/>}
-          primaryText="我的动态" leftIcon={<ActionStars />} />
+          primaryText="我的动态" leftIcon={<ActionStars color="#F50057"/>} style={{color: "#F50057"}} />
         <Divider />
         <MenuItem
           containerElement={<Link to="/post/competence"/>}
