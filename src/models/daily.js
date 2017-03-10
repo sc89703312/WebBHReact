@@ -15,6 +15,8 @@ export default {
       description: ``
     },
 
+    snack_flag: false,
+
     steps: [
       1000,
       1000,
@@ -102,6 +104,20 @@ export default {
         ...state,
         steps:  action.payload.data.steps,
         description: action.payload.data.description
+      }
+    },
+
+    enable_snack(state, action){
+      return {
+        ...state,
+        snack_flag: true
+      }
+    },
+
+    unable_snack(state, action){
+      return{
+        ...state,
+        snack_flag: false
       }
     }
   }

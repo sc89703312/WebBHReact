@@ -5,7 +5,8 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import ImageAddAPhoto from 'material-ui/svg-icons/image/add-a-photo'
+import ImageAddAPhoto from 'material-ui/svg-icons/image/add-a-photo';
+import Snackbar from 'material-ui/Snackbar';
 import {connect} from 'dva';
 
 
@@ -40,7 +41,7 @@ const styles = {
   },
 };
 
-function Post({dispatch}) {
+function Post({dispatch, post}) {
 
   let context = '';
 
@@ -57,11 +58,32 @@ function Post({dispatch}) {
         content: tempList[1],
         subContent: tempList[2]
       }
+    });
+    dispatch({
+      type: 'post/enable_snack',
+      payload:{
+        content: '发布动态成功'
+      }
+    })
+  }
+
+  function snack_close(){
+    dispatch({
+      type: 'post/unable_snack'
     })
   }
 
   return(
     <Paper>
+
+      <Snackbar
+        open={post.snack_flag}
+        message={post.content}
+        autoHideDuration={4000}
+        action="undo"
+        onRequestClose={snack_close}
+      />
+
       <div className="row">
         <div className="col-xs-9" style={{marginLeft: 10, paddingRight: 0}}>
           <TextField
@@ -87,4 +109,8 @@ function Post({dispatch}) {
   );
 }
 
-export default connect()(Post);
+function mapStateToProps({post}) {
+  return {post}
+}
+
+export default connect(mapStateToProps)(Post);

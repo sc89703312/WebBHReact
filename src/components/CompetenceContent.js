@@ -20,7 +20,8 @@ import Toggle from 'material-ui/Toggle';
 import { Link } from 'dva/router';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app';
-import {connect} from 'dva'
+import {connect} from 'dva';
+import Snackbar from 'material-ui/Snackbar';
 
 const styles = {
   chip: {
@@ -52,7 +53,14 @@ class CompetenceContent extends React.Component{
       payload:{
         competenceId: competenceId
       }
-    })
+    });
+
+    this.props.dispatch({
+      type: `competence/enable_snack`,
+      payload:{
+        content: '你已经成功参加'
+      }
+    });
   };
 
   exitCompetence = () => {
@@ -62,7 +70,13 @@ class CompetenceContent extends React.Component{
       payload:{
         competenceId: competenceId
       }
-    })
+    });
+    this.props.dispatch({
+      type: `competence/enable_snack`,
+      payload:{
+        content: '你已经成功退出'
+      }
+    });
   };
 
   deleteCompetence = () => {
@@ -72,6 +86,18 @@ class CompetenceContent extends React.Component{
       payload:{
         competenceId: competenceId
       }
+    });
+    this.props.dispatch({
+      type: `competence/enable_snack`,
+      payload:{
+        content: '你已经成功删除'
+      }
+    });
+  };
+
+  snack_close = () => {
+    this.props.dispatch({
+      type: 'competence/unable_snack'
     })
   };
 
@@ -118,7 +144,6 @@ class CompetenceContent extends React.Component{
   getContentBtn = (type) => {
     if(type === `create`){
       return (<FlatButton
-        onTouchTap={this.deleteCompetence}
         containerElement={<Link to="/competition/edit"/>}
         primary={true} icon={<EditorModeEdit/>} label="编辑" />);
     }else if(type === `joined`){
@@ -145,8 +170,8 @@ class CompetenceContent extends React.Component{
           return (
             <ListItem
               key = {++memberId}
-              primaryText={object.userName}
-              leftAvatar={<Avatar src={object.userAvatarUrl} />}
+              primaryText='逢坂大河'
+              leftAvatar={<Avatar src='https://avatars3.githubusercontent.com/u/11706061?v=3' />}
               rightIcon={
                 <ToggleStar color={cyan500}/>
               }
@@ -168,6 +193,15 @@ class CompetenceContent extends React.Component{
 
     return (
       <div>
+
+        <Snackbar
+          open={this.props.competence.snack_flag}
+          message={this.props.competence.content}
+          autoHideDuration={4000}
+          action="undo"
+          onRequestClose={this.snack_close}
+        />
+
         <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{marginBottom: 32}}>
           <CardHeader
             title={userName}

@@ -15,6 +15,7 @@ import ContentFlag from 'material-ui/svg-icons/content/flag';
 import ActionSearch from 'material-ui/svg-icons/action/search';
 import IconButton from 'material-ui/IconButton';
 import DatePicker from 'material-ui/DatePicker';
+import Snackbar from 'material-ui/Snackbar';
 import {
   cyan500
 } from 'material-ui/styles/colors';
@@ -32,6 +33,12 @@ function DailySyncPage({dispatch, daily}) {
     return y + '-' + m + '-' + d;
   };
 
+  function snack_close(){
+    dispatch({
+      type: 'daily/unable_snack'
+    })
+  }
+
   function dateOnChange(event, date) {
     let curDate = formatDate(date);
     dispatch({
@@ -47,10 +54,23 @@ function DailySyncPage({dispatch, daily}) {
         date: curDate
       }
     });
+
+    dispatch({
+      type: 'daily/enable_snack'
+    })
   }
 
   return (
     <div className={styles["container"]+" row"}>
+
+      <Snackbar
+        open={daily.snack_flag}
+        message='已成功同步数据'
+        action='undo'
+        autoHideDuration={4000}
+        onRequestClose={snack_close}
+      />
+
       <div className="col-xs-2"></div>
       <div className="col-xs-8">
         <Paper style={{marginTop: 32}}>

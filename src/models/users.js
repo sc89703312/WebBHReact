@@ -7,7 +7,9 @@ export default {
     following: [],
     follower: [],
     result: [],
-    open_state: false
+    open_state: false,
+    snack_flag: false,
+    content: ''
   },
 
   subscriptions:{
@@ -114,5 +116,19 @@ export default {
       return {...state, open_state: false}
     },
 
+    enable_snack(state, action){
+      return {
+        ...state,
+        snack_flag:true,
+        content:action.payload.content
+      }
+    },
+
+    unable_snack(state, action){
+      return{
+        ...state,
+        snack_flag: false
+      }
+    }
   }
 }

@@ -10,6 +10,10 @@ import cookie from 'react-cookie';
 export default {
   namespace: `competence`,
   state: {
+
+    snack_flag: false,
+    content: '',
+
     competenceList: [
       {
         creator:{
@@ -177,6 +181,22 @@ export default {
       return {...state,
         members: members
       }
-    }
+    },
+
+    enable_snack(state, action){
+      return {
+        ...state,
+        snack_flag: true,
+        content: action.payload.content
+      }
+    },
+
+    unable_snack(state, action){
+      return {
+        ...state,
+        snack_flag: false
+      }
+    },
+
   }
 }

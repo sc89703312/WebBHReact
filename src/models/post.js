@@ -12,7 +12,9 @@ export default {
   state:{
     postList: [],
     type: [],
-    active_users: []
+    active_users: [],
+    content: '',
+    snack_flag: false
   },
 
   subscriptions: {
@@ -168,6 +170,21 @@ export default {
       return {
         ...state,
         type: action.payload.type
+      }
+    },
+
+    enable_snack(state, action){
+      return {
+        ...state,
+        snack_flag:true,
+        content: action.payload.content
+      }
+    },
+
+    unable_snack(state, action){
+      return {
+        ...state,
+        snack_flag: false
       }
     }
   }

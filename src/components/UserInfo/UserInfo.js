@@ -19,6 +19,7 @@ import WeekSportsChart from '../WeekSportsChart';
 import HealthValueChart from '../HealthValueChart';
 import SportTypeChart from '../SportTypeChart';
 import MonthlySportChart from '../MonthlySportChart';
+import Snackbar from 'material-ui/Snackbar';
 import {connect} from 'dva';
 
 function UserInfo({dispatch,children, location, userinfo}) {
@@ -30,7 +31,9 @@ function UserInfo({dispatch,children, location, userinfo}) {
     totalSport,
     weeklyStep,
     weeklyStrength,
-    modify_flag
+    modify_flag,
+    success_flag,
+    signin_flag,
   } = userinfo;
 
 
@@ -72,6 +75,24 @@ function UserInfo({dispatch,children, location, userinfo}) {
     })
   }
 
+  function unable_success(){
+    dispatch({
+      type: 'userinfo/unable_success',
+    })
+  }
+
+  function enable_sign(){
+    dispatch({
+      type: 'userinfo/enable_sign'
+    })
+  }
+
+  function unable_sign(){
+    dispatch({
+      type: 'userinfo/unable_sign'
+    })
+  }
+
 
   return (
       <div className="row" style={{marginTop: -1}}>
@@ -91,6 +112,7 @@ function UserInfo({dispatch,children, location, userinfo}) {
             />
             <div className={styles["btn"]} style={{border:"1px solid #00BCD4"}}>
               <FlatButton
+                onTouchTap={enable_sign}
                 backgroundColor={fullWhite}
                 label={"签到天数 "+signIn +" 天"}
                 labelStyle={{color:"#00BCD4"}}
@@ -100,6 +122,22 @@ function UserInfo({dispatch,children, location, userinfo}) {
             </div>
           </Paper>
         </div>
+
+        <Snackbar
+          open={success_flag}
+          message="修改个人信息成功"
+          autoHideDuration={4000}
+          action="undo"
+          onRequestClose={unable_success}
+        />
+
+        <Snackbar
+          open={signin_flag}
+          message="今日签到成功"
+          autoHideDuration={4000}
+          action="undo"
+          onRequestClose={unable_sign}
+        />
 
         <Dialog
           title="修改个人信息"
@@ -121,7 +159,7 @@ function UserInfo({dispatch,children, location, userinfo}) {
                 </div>
                 <div style={{marginLeft: 45}}>
                   <FlatButton
-                    style={{color: "#BDBDBD"}}
+                    style={{color: "#616161"}}
                     backgroundColor={fullWhite}
                     label="修改"
                     onTouchTap={open_modal}
@@ -245,7 +283,7 @@ function UserInfo({dispatch,children, location, userinfo}) {
                         backgroundColor={cyan500}
                         size={105}
                       />
-                      <p style={fontSizeStyle}>消耗了<span style={fontSizeStyle2}>{totalSport["energy"]}</span>大卡</p>
+                      <p style={fontSizeStyle}>消耗了<span style={fontSizeStyle2}>{totalSport["calorie"]}</span>大卡</p>
                     </center>
                   </div>
                 </div>

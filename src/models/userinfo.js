@@ -35,6 +35,8 @@ export default {
     weeklyStrength:[],
     modify_flag: false,
     login_flag: true,
+    success_flag:false,
+    signin_flag:false,
   },
 
   subscriptions: {
@@ -189,6 +191,10 @@ export default {
         type: `close_modal`,
         payload:{
         }
+      });
+
+      yield put({
+        type: 'enable_success'
       })
     },
   },
@@ -253,7 +259,35 @@ export default {
       }
     },
 
+    enable_success(state, action){
+      return{
+        ...state,
+        success_flag: true
+      }
+    },
+
+    unable_success(state, action){
+      return {
+        ...state,
+        success_flag: false
+      }
+    },
+
     login_in(state, action){
+    },
+
+    enable_sign(state, action){
+      return {
+        ...state,
+        signin_flag: true
+      }
+    },
+
+    unable_sign(state, action){
+      return {
+        ...state,
+        signin_flag: false
+      }
     }
   },
 }

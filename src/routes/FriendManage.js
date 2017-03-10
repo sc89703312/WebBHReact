@@ -10,10 +10,12 @@ import {List, ListItem} from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import ActionSearch from 'material-ui/svg-icons/action/search';
+import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Snackbar from 'material-ui/Snackbar';
 
 
 function FriendManage ({users, dispatch}){
@@ -49,6 +51,12 @@ function FriendManage ({users, dispatch}){
     })
   }
 
+  function snack_close(){
+    dispatch({
+      type: 'users/unable_snack'
+    })
+  }
+
   function getSearchResult() {
     let index = 0;
     return (result.map(
@@ -58,7 +66,8 @@ function FriendManage ({users, dispatch}){
             key = {index++}
             onTouchTap={followOther.bind(this,object.userName, event)}
             primaryText={object.userName}
-            leftAvatar={<Avatar src={object.avatarUrl} />}
+            leftAvatar={<Avatar src={object.avatarUrl}/>}
+            rightIcon={<ActionFavorite />}
           />
         )
       }
@@ -70,6 +79,12 @@ function FriendManage ({users, dispatch}){
       type: `users/followOther`,
       payload:{
         followingName: userName
+      }
+    });
+    dispatch({
+      type: 'users/enable_snack',
+      payload:{
+        content:'已成功添加至关注'
       }
     })
   }
@@ -87,6 +102,14 @@ function FriendManage ({users, dispatch}){
   return (
 
     <div className={styles["container"] + " row"}>
+
+      <Snackbar
+        open={users.snack_flag}
+        message={users.content}
+        action="undo"
+        autoHideDuration={4000}
+        onRequestClose={snack_close}
+      />
 
       <div className="col-xs-12">
         <div className="row">

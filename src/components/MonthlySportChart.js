@@ -6,11 +6,12 @@ import ReactEcharts from 'echarts-for-react';
 
 function MonthlySportChart ({data}) {
 
-  var hours = ['12a', '2a',  '4a',  '6a',
-     '8a', '10a', '12p',  '2p',  '4p',
-    '6p',  '8p',  '10p', ];
-  var days = ['周六', '周五', '周四',
-    '周三', '周二', '周一', '周末'];
+  var hours = ['12a', '1a', '2a', '3a', '4a', '5a', '6a',
+    '7a', '8a', '9a','10a','11a',
+    '12p', '1p', '2p', '3p', '4p', '5p',
+    '6p', '7p', '8p', '9p', '10p', '11p'];
+  var days = ['Saturday', 'Friday', 'Thursday',
+    'Wednesday', 'Tuesday', 'Monday', 'Sunday'];
 
 
   data = data.map(function (item) {

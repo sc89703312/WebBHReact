@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import ActionThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import ActionThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import Toggle from 'material-ui/Toggle';
+import Snackbar from 'material-ui/Snackbar';
 import {connect} from 'dva';
 
 const styles = {
@@ -27,6 +28,12 @@ class PostContent extends React.Component{
       payload:{
         postId: postId
       }
+    });
+    this.props.dispatch({
+      type: 'post/enable_snack',
+      payload:{
+        content: '点赞成功'
+      }
     })
   };
 
@@ -35,6 +42,12 @@ class PostContent extends React.Component{
       type: `post/reportPost`,
       payload:{
         postId: postId
+      }
+    });
+    this.props.dispatch({
+      type: 'post/enable_snack',
+      payload:{
+        content: '举报成功'
       }
     })
   };
@@ -47,10 +60,25 @@ class PostContent extends React.Component{
     this.setState({expanded: toggle});
   };
 
+  snack_close = () =>{
+    this.props.dispatch({
+      type: 'post/unable_snack'
+    })
+  };
+
 
   render(){
     return (
       <div style={{marginTop: 16}}>
+
+        <Snackbar
+          open={this.props.post.snack_flag}
+          message={this.props.post.content}
+          autoHideDuration={4000}
+          action="undo"
+          onRequestClose={this.snack_close}
+        />
+
         <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{marginBottom: 32}}>
           <CardHeader
             title={this.props.postInfo.creator.userName}
@@ -90,7 +118,12 @@ class PostContent extends React.Component{
 
 PostContent.propTypes = {
   postInfo: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  post: PropTypes.object
 };
 
-export default connect()(PostContent);
+function mapStateToProps({post}) {
+  return {post}
+}
+
+export default connect(mapStateToProps)(PostContent);

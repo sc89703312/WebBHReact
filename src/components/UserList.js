@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'dva';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
+import ActionInfo from 'material-ui/svg-icons/action/info';
 import Avatar from 'material-ui/Avatar';
 import SocialGroup from 'material-ui/svg-icons/social/group';
 import {Link} from 'dva/router';
@@ -23,7 +23,7 @@ class UserList extends React.Component {
             <ListItem
               primaryText={object.userName}
               leftAvatar={<Avatar src={object.avatarUrl} />}
-              rightIcon={<CommunicationChatBubble />}
+              rightIcon={<ActionInfo />}
             />
           </Link>
         )

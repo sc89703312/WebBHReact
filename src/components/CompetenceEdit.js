@@ -16,6 +16,7 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import ImageAddAPhoto from 'material-ui/svg-icons/image/add-a-photo'
 import {connect} from 'dva';
+import Snackbar from 'material-ui/Snackbar';
 
 const styles = {
   block: {
@@ -124,6 +125,12 @@ class CompetenceEdit extends React.Component{
     this.setState({tags: event.target.value})
   };
 
+  snack_close = () =>{
+    this.props.dispatch({
+      type: 'competence/unable_snack'
+    })
+  };
+
   handleCreate = () =>{
 
     console.log(this.state.title);
@@ -146,12 +153,28 @@ class CompetenceEdit extends React.Component{
         type:    this.state.type,
         tags:    this.state.tags
       }
+    });
+
+    this.props.dispatch({
+      type: 'competence/enable_snack',
+      payload:{
+        content: '你已经成功编辑提交'
+      }
     })
   };
 
   render(){
     return (
       <Paper style={{paddingBottom: 20}}>
+
+        <Snackbar
+          open={this.props.competence.snack_flag}
+          message={this.props.competence.content}
+          autoHideDuration={4000}
+          action="undo"
+          onRequestClose={this.snack_close}
+        />
+
         <div className="row">
           <div className="col-xs-8 col-xs-offset-2">
             <div className="row">
@@ -277,7 +300,12 @@ class CompetenceEdit extends React.Component{
 }
 
 CompetenceEdit.propTypes = {
-  dispatch: React.PropTypes.func
+  dispatch: React.PropTypes.func,
+  competence: React.PropTypes.object,
 };
 
-export default connect()(CompetenceEdit);
+function mapStateToProps({competence}) {
+  return {competence}
+}
+
+export default connect(mapStateToProps)(CompetenceEdit);
